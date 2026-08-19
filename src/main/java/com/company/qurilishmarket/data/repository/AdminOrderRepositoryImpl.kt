@@ -14,6 +14,13 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import javax.inject.Inject
 
+/**
+ * Status o'zgartirish to'g'ridan-to'g'ri UPDATE emas — `update_order_status()` funksiyasi
+ * orqali (supabase/schema.sql), chunki u statusni yangilash bilan order_status_history'ga
+ * yozishni BITTA tranzaksiyada qiladi. Ikkalasini alohida chaqirsak, biri muvaffaqiyatli
+ * bo'lib ikkinchisi xato bersa, tarix buzilib qolishi mumkin edi. Funksiya ichida qayta
+ * admin tekshiruvi ham bor — RLS'dan mustaqil ikkinchi himoya qatlami (§6, §11).
+ */
 class AdminOrderRepositoryImpl @Inject constructor(
     private val client: SupabaseClient
 ) : AdminOrderRepository {
