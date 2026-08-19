@@ -12,10 +12,18 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import javax.inject.Inject
 
+/**
+ * RLS ("favorites_own") o'qish/yozishni joriy foydalanuvchining o'ziniki bilan cheklaydi (§6),
+ * shuning uchun bu yerda ham user_id'ni qo'lda filtrlash shart emas — faqat toggleFavorite'da
+ * INSERT uchun kerak (RLS WITH CHECK bari bir tekshiradi, lekin qaysi qatorni yozayotganimizni
+ * bilishimiz kerak).
+ */
 class FavoriteRepositoryImpl @Inject constructor(
     private val client: SupabaseClient
 ) : FavoriteRepository {
 
+    // Postgrest'ning "resource embedding"i: favorites -> products(*) — bitta so'rovda
+    // to'liq mahsulot ma'lumotini olib keladi, alohida so'rov kerak emas.
     @Serializable
     private data class FavoriteWithProductDto(val products: ProductDto)
 
