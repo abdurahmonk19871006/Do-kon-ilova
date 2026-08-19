@@ -22,6 +22,9 @@ import javax.inject.Inject
  * Providers → Phone (Twilio, MessageBird va h.k. — bepul emas, alohida ro'yxatdan o'tish
  * kerak). Test paytida Dashboard'da "Test OTP" raqam+kod qo'shib, haqiqiy SMS'siz sinash
  * mumkin. Bu ilova kodi tomonidan hal qilinmaydi — sof infratuzilma sozlamasi.
+ *
+ * signInWith(OTP)/verifyPhoneOtp — https://supabase.com/docs/guides/auth/phone-login orqali
+ * tasdiqlangan (2026-yil holatiga ko'ra).
  */
 class AuthRepositoryImpl @Inject constructor(
     private val client: SupabaseClient
@@ -31,7 +34,7 @@ class AuthRepositoryImpl @Inject constructor(
         when (status) {
             is SessionStatus.Authenticated -> AuthState.LoggedIn(status.session.user?.id.orEmpty())
             is SessionStatus.NotAuthenticated -> AuthState.LoggedOut
-            else -> AuthState.Loading
+            else -> AuthState.Loading // LoadingFromStorage / RefreshFailure
         }
     }
 
