@@ -8,7 +8,9 @@ data class CartItemEntity(
     @PrimaryKey val productId: String,
     val name: String,
     val price: Long,
-    val quantity: Int,
+    val oldPrice: Long?,
+    val imageUrl: String?,
     val unit: String,
-    val imageUrl: String? = null
+    val quantity: Int,
+    val availableStock: Int
 )
