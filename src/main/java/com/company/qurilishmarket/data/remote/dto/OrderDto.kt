@@ -15,7 +15,7 @@ data class OrderDto(
     @SerialName("delivery_fee") val deliveryFee: Long,
     val total: Long,
     @SerialName("created_at") val createdAt: String,
-    // Postgrest'ning "resource embedding"i orqali keladi — select("*, order_items(*)") 
+    // Postgrest'ning "resource embedding"i orqali keladi — select("*, order_items(*)")
     // qilinganda shu maydon avtomatik to'ladi, alohida so'rov kerak emas (§6).
     @SerialName("order_items") val items: List<OrderItemDto> = emptyList()
 )
