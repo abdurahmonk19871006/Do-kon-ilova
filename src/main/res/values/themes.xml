@@ -1,0 +1,5 @@
+<resources>
+    <!-- Bu faqat ilova ochilguncha bo'lgan zaminiy tema — haqiqiy rang/tipografiya
+         presentation/theme/Theme.kt'da, Compose orqali beriladi (§4). -->
+    <style name="Theme.QurilishMarket" parent="android:Theme.Material.Light.NoActionBar" />
+</resources>
