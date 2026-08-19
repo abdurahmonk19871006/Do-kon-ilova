@@ -11,6 +11,13 @@ import io.github.jan.supabase.postgrest.from
 import io.github.jan.supabase.postgrest.query.Order as SortDirection
 import javax.inject.Inject
 
+/**
+ * DIQQAT: bu yerdagi yozish (insert/update) chaqiruvlari Postgrest'ning odatiy REST
+ * semantikasiga amal qiladi — lekin `insert(...) { select() }` orqali yaratilgan qatorni
+ * qaytarib olish naqshi docs versiyasiga qarab farq qilishi mumkin (Android Studio
+ * autocomplete'ga qarang). Haqiqiy himoya baribir RLS'da (§6) — bu klass chaqirilganda ham,
+ * agar joriy foydalanuvchi admin bo'lmasa, Supabase serverning o'zi rad etadi.
+ */
 class AdminProductRepositoryImpl @Inject constructor(
     private val client: SupabaseClient
 ) : AdminProductRepository {
