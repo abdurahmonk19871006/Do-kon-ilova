@@ -1,0 +1,48 @@
+name: Build debug APK
+
+# Kompyuter yoki kuchli telefon shart emas — bu fayl GitHub'ning o'z serverida ishlaydi.
+# Har safar kodni push qilganingizda (yoki pastdagi "workflow_dispatch" tufayli qo'lda
+# "Run workflow" tugmasini bosganingizda) avtomatik APK yig'ib beradi.
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch: {}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      # Loyihada hali gradlew fayllari yo'q (§ pastdagi README) — shuning uchun Gradle'ni
+      # to'g'ridan-to'g'ri shu action o'rnatadi. "current" — build vaqtidagi eng so'nggi
+      # barqaror versiya, AGP bilan mos kelishi kafolatlangan.
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: current
+
+      # SUPABASE_URL / SUPABASE_PUBLISHABLE_KEY — repository Settings -> Secrets and
+      # variables -> Actions'da qo'shilgan qiymatlar shu yerga keladi. local.properties
+      # git'ga hech qachon tushmaydi (.gitignore), shuning uchun bu qadam shart.
+      - name: Write local.properties from secrets
+        run: |
+          echo "SUPABASE_URL=${{ secrets.SUPABASE_URL }}" >> local.properties
+          echo "SUPABASE_PUBLISHABLE_KEY=${{ secrets.SUPABASE_PUBLISHABLE_KEY }}" >> local.properties
+
+      - name: Build debug APK
+        run: gradle assembleDebug --stacktrace
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: QurilishMarket-debug-apk
+          path: app/build/outputs/apk/debug/app-debug.apk
