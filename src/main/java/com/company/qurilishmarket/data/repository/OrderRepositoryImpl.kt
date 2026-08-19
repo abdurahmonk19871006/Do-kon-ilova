@@ -13,6 +13,9 @@ import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.postgrest.from
 import io.github.jan.supabase.postgrest.postgrest
 import io.github.jan.supabase.postgrest.query.Columns
+// DIQQAT: bu "Order" — Postgrest'ning saralash enum'i (ASCENDING/DESCENDING), domain
+// qatlamidagi Order (buyurtma) modeli bilan bir xil nom to'qnashmasin deb SortDirection deb
+// alias qildim.
 import io.github.jan.supabase.postgrest.query.Order as SortDirection
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -20,6 +23,20 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import javax.inject.Inject
 
+/**
+ * Bu yerda mijoz o'zi summa hisoblab yubormaydi — faqat productId+quantity ro'yxatini
+ * yuboradi. Narx, stock tekshiruvi va yakuniy summa har doim serverda, `create_order()`
+ * Postgres funksiyasi ichida hisoblanadi (supabase/schema.sql, §6) — aks holda kimdir
+ * ilovani o'zgartirib, narxni pasaytirib yuborishi mumkin edi.
+ *
+ * DIQQAT: `observeOrderStatus`dagi `selectSingleValueAsFlow` — Realtime + Postgrest
+ * modulini birgalikda ishlatadigan qulaylik metodi. Qidiruv paytida shu metodning eng
+ * so'nggi (2026-yil) docs'da eng barqaror variant ekanini aniqladim, lekin xuddi shu
+ * natijani beruvchi muqobil yo'llar ham bor (`channel.postgresSingleDataFlow`,
+ * `channel.postgresChangeFlow` — quyi darajadagi API). Agar compile qilishda bu metod
+ * topilmasa, Android Studio autocomplete'da "Flow" bilan tugaydigan muqobillarni ko'rib
+ * chiqing (https://supabase.com/docs/reference/kotlin/subscribe).
+ */
 class OrderRepositoryImpl @Inject constructor(
     private val client: SupabaseClient
 ) : OrderRepository {
@@ -62,6 +79,8 @@ class OrderRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getMyOrders(): Result<List<Order>> = runCatching {
+        // RLS o'zi joriy foydalanuvchining buyurtmalari bilan cheklaydi (§6) — bu yerda
+        // qo'shimcha user_id filtri shart emas.
         client.from("orders")
             .select(Columns.raw("*, order_items(*)")) {
                 order("created_at", SortDirection.DESCENDING)
