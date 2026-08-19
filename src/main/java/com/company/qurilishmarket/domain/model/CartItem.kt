@@ -10,9 +10,11 @@ data class CartItem(
     val productId: String,
     val name: String,
     val price: Long,          // qo'shilgan paytdagi snapshot
-    val quantity: Int,
+    val oldPrice: Long? = null,
+    val imageUrl: String?,
     val unit: MeasureUnit,
-    val imageUrl: String? = null
+    val quantity: Int,
+    val availableStock: Int   // checkout'da server baribir qayta tekshiradi (§6) — bu faqat UI uchun
 ) {
     val lineTotal: Long get() = price * quantity
 }
