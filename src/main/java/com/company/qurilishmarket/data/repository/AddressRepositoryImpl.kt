@@ -34,6 +34,7 @@ class AddressRepositoryImpl @Inject constructor(
         val userId = client.auth.currentUserOrNull()?.id
             ?: error("Manzil qo'shish uchun avval tizimga kirish kerak")
 
+        // .insert(...) { select() } — qo'shilgan qatorni (id bilan) darhol qaytarib olish uchun
         client.from("addresses")
             .insert(NewAddress(userId = userId, title = title, fullAddress = fullAddress)) {
                 select()
@@ -43,6 +44,7 @@ class AddressRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getMyAddresses(): Result<List<Address>> = runCatching {
+        // RLS ("addresses_own") o'zi joriy foydalanuvchining manzillari bilan cheklaydi (§6)
         client.from("addresses")
             .select()
             .decodeList<AddressDto>()
