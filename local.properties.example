@@ -1,0 +1,6 @@
+## local.properties'ga nusxalab, haqiqiy qiymatlarni qo'ying (Supabase Dashboard → Settings → API).
+## SUPABASE_PUBLISHABLE_KEY — publishable/anon kalit, client uchun xavfsiz.
+## service_role kalitni HECH QACHON bu yerga yoki ilova koduga qo'ymang.
+
+SUPABASE_URL=https://YOUR_PROJECT_REF.supabase.co
+SUPABASE_PUBLISHABLE_KEY=sb_publishable_xxxxxxxxxxxxxxxxxxxx
