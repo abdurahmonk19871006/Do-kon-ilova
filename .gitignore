@@ -1,0 +1,11 @@
+*.iml
+.gradle
+# Loyihaga xos maxfiy qiymatlar (Supabase URL/key) — local.properties.example'ga qarang
+/local.properties
+.idea/
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.cxx
+build/
