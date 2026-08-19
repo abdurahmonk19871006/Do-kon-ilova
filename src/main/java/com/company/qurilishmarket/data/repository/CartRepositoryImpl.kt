@@ -25,9 +25,13 @@ class CartRepositoryImpl @Inject constructor(
                 productId = product.id,
                 name = product.name,
                 price = product.price,
-                quantity = newQuantity.coerceAtMost(product.stock),
+                oldPrice = product.oldPrice,
+                imageUrl = product.images.firstOrNull(),
                 unit = product.unit.name,
-                imageUrl = product.images.firstOrNull()
+                // Stock'dan oshib ketmasin — checkout'da baribir server qayta tekshiradi (§6),
+                // bu faqat UI'ning o'zi nomunosib son ko'rsatmasligi uchun
+                quantity = newQuantity.coerceAtMost(product.stock),
+                availableStock = product.stock
             )
         )
     }
@@ -38,7 +42,7 @@ class CartRepositoryImpl @Inject constructor(
             return
         }
         val existing = cartDao.getCartItem(productId) ?: return
-        cartDao.upsert(existing.copy(quantity = quantity))
+        cartDao.upsert(existing.copy(quantity = quantity.coerceAtMost(existing.availableStock)))
     }
 
     override suspend fun removeFromCart(productId: String) = cartDao.remove(productId)
@@ -50,7 +54,9 @@ private fun CartItemEntity.toDomain(): CartItem = CartItem(
     productId = productId,
     name = name,
     price = price,
-    quantity = quantity,
+    oldPrice = oldPrice,
+    imageUrl = imageUrl,
     unit = runCatching { MeasureUnit.valueOf(unit) }.getOrDefault(MeasureUnit.DONA),
-    imageUrl = imageUrl
+    quantity = quantity,
+    availableStock = availableStock
 )
