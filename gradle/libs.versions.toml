@@ -3,9 +3,9 @@
 # sohada normal holat, rozilik bering. Bu yerdagi raqamlar 2026-yil holatiga yaqin.
 agp = "8.9.0"
 kotlin = "2.4.0"
-ksp = "2.4.0-1.0.29"
+ksp = "2.3.10"
 coreKtx = "1.16.0"
-composeBom = "2026.06.00"
+composeBom = "2026.06.01"
 lifecycle = "2.9.0"
 activityCompose = "1.10.0"
 navigationCompose = "2.9.0"
@@ -15,8 +15,7 @@ room = "2.7.0"
 datastore = "1.1.2"
 coroutines = "1.9.0"
 coil = "2.7.0"
-# Aniq raqamlarni tekshiring: https://github.com/supabase-community/supabase-kt/releases
-supabaseBom = "3.2.3"
+supabaseBom = "3.5.0"
 ktor = "3.1.1"
 kotlinxSerializationJson = "1.7.3"
 
