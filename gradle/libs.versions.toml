@@ -1,7 +1,10 @@
 [versions]
 # Loyiha boshlanganda Android Studio "Upgrade" taklif qilishi mumkin — bu tez o'zgaruvchi
 # sohada normal holat, rozilik bering. Bu yerdagi raqamlar 2026-yil holatiga yaqin.
-agp = "8.9.0"
+# AGP ataylab 8.x chizig'ida qoldirilgan (8.13.0 — shu chiziqning oxirgi versiyasi): AGP 9.0
+# katta buzuvchi o'zgarishlar (yangi DSL, alohida Kotlin plagini o'rniga "built-in Kotlin")
+# bilan keladi, buni sinab ko'rmasdan mendan ishonchli qila olmaydi.
+agp = "8.13.0"
 kotlin = "2.4.0"
 ksp = "2.3.10"
 coreKtx = "1.16.0"
