@@ -23,14 +23,12 @@ jobs:
           java-version: '17'
 
       # Loyihada hali gradlew fayllari yo'q (§ pastdagi README) — shuning uchun Gradle'ni
-      # to'g'ridan-to'g'ri shu action o'rnatadi. ANIQ versiya belgilangan (8.11.1) — "current"
-      # emas: birinchi urinishda "current" Gradle 9.7.1'ni o'rnatgan edi, u esa loyihadagi
-      # AGP 8.9.0 bilan mutlaqo mos kelmaydi (Gradle 9.x faqat AGP 9.0+ bilan ishlaydi).
-      # 8.11.1 — AGP 8.9.0 uchun rasman minimal talab qilingan va tekshirilgan versiya.
+      # to'g'ridan-to'g'ri shu action o'rnatadi. 8.14.4 — build jurnalida Kotlin plagini
+      # to'g'ridan-to'g'ri talab qilgan eng kichik versiya, va AGP 8.13.0 bilan ham mos.
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
         with:
-          gradle-version: '8.11.1'
+          gradle-version: '8.14.4'
 
       # SUPABASE_URL / SUPABASE_PUBLISHABLE_KEY — repository Settings -> Secrets and
       # variables -> Actions'da qo'shilgan qiymatlar shu yerga keladi. local.properties
