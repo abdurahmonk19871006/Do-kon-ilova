@@ -44,13 +44,19 @@ android {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
-    kotlinOptions {
-        jvmTarget = "17"
-    }
 
     buildFeatures {
         compose = true
         buildConfig = true // buildConfigField ishlashi uchun shart
+    }
+}
+
+// Kotlin 2.2'dan boshlab android { kotlinOptions {} } butunlay olib tashlangan (avval shu
+// yerda edi) — o'rniga rasmiy tavsiya qilingan yangi, alohida "kotlin" bloki:
+// https://kotlinlang.org/docs/gradle-compiler-options.html
+kotlin {
+    compilerOptions {
+        jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17
     }
 }
 
