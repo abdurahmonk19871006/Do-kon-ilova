@@ -34,9 +34,9 @@ class SearchViewModel @Inject constructor(
         .distinctUntilChanged()
         .flatMapLatest { q ->
             if (q.isBlank()) {
-                flowOf(UiState.Empty)
+                flowOf<UiState<List<Product>>>(UiState.Empty)
             } else {
-                flow {
+                flow<UiState<List<Product>>> {
                     emit(UiState.Loading)
                     val result = productRepository.searchProducts(q)
                     emit(
